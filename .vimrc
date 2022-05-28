@@ -1,4 +1,4 @@
-""" useful to have a base
+""" useful to have a base to build on
 so $VIMRUNTIME/defaults.vim
 
 """ must have
