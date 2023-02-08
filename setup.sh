@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 
 # Copy config files to user home
-cp -v .inputrc .vimrc .tmux.conf ~
+cp -v .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc ~
