@@ -46,6 +46,8 @@ fi
 if [ -d "/usr/local/cuda-12.0/bin" ] ; then
     PATH="/usr/local/cuda-12.0/bin${PATH:+:${PATH}}"
 fi
+
+# TODO: use this cool syntax everywhere else too?
 if [ -d "/usr/local/cuda-12.0/lib64" ] ; then
     LD_LIBRARY_PATH="/usr/local/cuda-12.0/lib64\
         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
@@ -61,14 +63,31 @@ if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
 
+# Buildroot stuff
+if [ -d "$HOME/buildroot/output/host/bin" ] ; then
+    PATH="$HOME/buildroot/output/host/bin:$PATH"
+fi
+
 # Go > Python xdd
 ! command -v chroma &> /dev/null || export ZSH_COLORIZE_TOOL="chroma"
 
 # Autojump
-. /usr/share/autojump/autojump.sh
+if [ -f /usr/share/autojump/autojump.sh ] ; then
+    . /usr/share/autojump/autojump.sh
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# idk, could be useful?
+if [ -z $PKG_CONFIG_PATH ] && [ -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ] ; then
+    export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
+fi
+
+# for alacritty maybe? idk
+if [ -d ${ZDOTDIR:-~}/.zsh_functions ] ; then
+    fpath+=${ZDOTDIR:-~}/.zsh_functions
+fi
 
 # slightly edited conda init, might be bad idea xdd?
 __conda_setup="$($HOME'/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
