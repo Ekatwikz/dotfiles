@@ -31,7 +31,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
+### User configuration:
 
 # set PATH so it includes texlive path if it exists
 if [ -d "/usr/local/texlive/2022/bin/x86_64-linux" ] ; then
@@ -63,6 +63,11 @@ if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
 
+# TODO: less specific?
+if [ -d "$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man" ] ; then
+    export MANPATH="$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man:${MANPATH:-`manpath`}"
+fi
+
 # Buildroot stuff
 if [ -d "$HOME/buildroot/output/host/bin" ] ; then
     PATH="$HOME/buildroot/output/host/bin:$PATH"
@@ -89,7 +94,9 @@ if [ -d ${ZDOTDIR:-~}/.zsh_functions ] ; then
     fpath+=${ZDOTDIR:-~}/.zsh_functions
 fi
 
-# slightly edited conda init, might be bad idea xdd?
+### Semi-auto setups:
+
+# Conda
 __conda_setup="$($HOME'/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
@@ -101,3 +108,28 @@ else
     fi
 fi
 unset __conda_setup
+
+# NVM stuff
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
