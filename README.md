@@ -1,1 +1,7 @@
-my dotfiles inni'
+# My dotfiles
+
+Easiest way to setup:   
+```
+yes | ./setup.sh
+```
+
