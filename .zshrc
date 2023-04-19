@@ -112,7 +112,7 @@ load-nvmrc() {
       nvm use 1>/dev/null
     fi
   elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
+    #echo "Reverting to nvm default version"
     nvm use default
   fi
 }
