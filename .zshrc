@@ -34,65 +34,49 @@ source $ZSH/oh-my-zsh.sh
 ### User configuration:
 
 # set PATH so it includes texlive path if it exists
-if [ -d "/usr/local/texlive/2022/bin/x86_64-linux" ] ; then
-    PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
-fi
+[ -d "/usr/local/texlive/2022/bin/x86_64-linux" ]\
+    && PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
 
 # TODO?
 #/usr/local/texlive/2022/texmf-dist/doc/man to MANPATH
 #/usr/local/texlive/2022/texmf-dist/doc/info to INFOPATH
 
 # Nvidia stuff
-if [ -d "/usr/local/cuda-12.0/bin" ] ; then
-    PATH="/usr/local/cuda-12.0/bin${PATH:+:${PATH}}"
-fi
+[ -d "/usr/local/cuda-12.0/bin" ]\
+    && PATH="/usr/local/cuda-12.0/bin${PATH:+:${PATH}}"
 
 # TODO: use this cool syntax everywhere else too?
-if [ -d "/usr/local/cuda-12.0/lib64" ] ; then
-    LD_LIBRARY_PATH="/usr/local/cuda-12.0/lib64\
+[ -d "/usr/local/cuda-12.0/lib64" ]\
+    && LD_LIBRARY_PATH="/usr/local/cuda-12.0/lib64\
         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
-fi
 
 # Android stuff
-if [ -d "$HOME/Android/Sdk/emulator" ] ; then
-    PATH="$HOME/Android/Sdk/emulator:$PATH"
-fi
+[ -d "$HOME/Android/Sdk/emulator" ]\
+    && PATH="$HOME/Android/Sdk/emulator:$PATH"
 
 # Rust stuff
-if [ -d "$HOME/.cargo/bin" ] ; then
-    PATH="$HOME/.cargo/bin:$PATH"
-fi
+[ -d "$HOME/.cargo/bin" ]\
+    && PATH="$HOME/.cargo/bin:$PATH"
 
 # TODO: less specific?
-if [ -d "$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man" ] ; then
-    export MANPATH="$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man:${MANPATH:-`manpath`}"
-fi
-
-# Buildroot stuff
-if [ -d "$HOME/buildroot/output/host/bin" ] ; then
-    PATH="$HOME/buildroot/output/host/bin:$PATH"
-fi
+[ -d "$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man" ]\
+    && export MANPATH="$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man:${MANPATH:-`manpath`}"
 
 # Go > Python xdd
-! command -v chroma &> /dev/null || export ZSH_COLORIZE_TOOL="chroma"
+command -v chroma 1> /dev/null\
+    && export ZSH_COLORIZE_TOOL="chroma"
 
 # Autojump
-if [ -f /usr/share/autojump/autojump.sh ] ; then
-    . /usr/share/autojump/autojump.sh
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[ -f /usr/share/autojump/autojump.sh ]\
+    && . /usr/share/autojump/autojump.sh
 
 # idk, could be useful?
-if [ -z $PKG_CONFIG_PATH ] && [ -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ] ; then
-    export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
-fi
+[ -z $PKG_CONFIG_PATH ] && [ -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ]\
+    && export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
 
 # for alacritty maybe? idk
-if [ -d ${ZDOTDIR:-~}/.zsh_functions ] ; then
-    fpath+=${ZDOTDIR:-~}/.zsh_functions
-fi
+[ -d ${ZDOTDIR:-~}/.zsh_functions ]\
+    && fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 ### Semi-auto setups:
 
@@ -134,3 +118,4 @@ load-nvmrc() {
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
+
