@@ -78,6 +78,16 @@ command -v chroma 1> /dev/null\
 [ -d ${ZDOTDIR:-~}/.zsh_functions ]\
     && fpath+=${ZDOTDIR:-~}/.zsh_functions
 
+# laaaaaaaazy
+(command -v lazygit && ! command -v lg) 1> /dev/null\
+    && alias lg=lazygit
+(command -v lazydocker && ! command -v lzd) 1> /dev/null\
+    && alias lzd=lazydocker
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]]\
+    || source ~/.p10k.zsh
+
 ### Semi-auto setups:
 
 # Conda
