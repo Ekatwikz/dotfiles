@@ -1,2 +1,7 @@
 # vim shit
 *.swp
+*~
+
+# NVim packer
+**/plugin/packer_compiled.lua
+

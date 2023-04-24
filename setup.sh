@@ -9,13 +9,16 @@ CANDOWNLOAD=1
 
 main () {
 	# Link/Copy config files to user home
-	$SETUPMETHOD -iv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc ~
+	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc ~
 
 	# TODO: download p10k recommended font?
 
 	# Link/Copy alacritty config
 	mkdir -pv ~/.config/alacritty
-	$SETUPMETHOD -iv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
+	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
+
+	# Symlink Nvim config, too lazy to continue the usual hard/cp thingy rn
+	ln -sv .config/nvim ~/.config
 
 	# Download dracula theme for alacritty
 	[ $CANDOWNLOAD -ne 0 ] && [ ! -d ~/.config/alacritty/alacritty-dracula ] && \

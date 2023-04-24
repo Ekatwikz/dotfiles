@@ -84,6 +84,10 @@ command -v chroma 1> /dev/null\
 (command -v lazydocker && ! command -v lzd) 1> /dev/null\
     && alias lzd=lazydocker
 
+# Neovim!
+(command -v nvim && ! command -v nv) 1> /dev/null\
+    && alias nv=nvim
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]]\
     || source ~/.p10k.zsh
