@@ -20,7 +20,7 @@ main () {
 	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
 
 	# Download dracula theme for alacritty
-	[ $CANDOWNLOAD -ne 0 ] && [ ! -d ~/.config/alacritty/alacritty-dracula ] && \
+	[ $CANDOWNLOAD -eq 0 ] || [ -d ~/.config/alacritty/alacritty-dracula ] || \
 		git clone https://github.com/dracula/alacritty \
 		~/.config/alacritty/alacritty-dracula
 
