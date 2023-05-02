@@ -11,24 +11,20 @@ main () {
 	# Link/Copy config files to user home
 	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc ~
 
-	# TODO: download p10k recommended font?
+	# Link/Copy Nvim config
+	mkdir -pv ~/.config/nvim
+	$SETUPMETHOD -fv ./.config/nvim/init.lua ~/.config/nvim
 
 	# Link/Copy alacritty config
 	mkdir -pv ~/.config/alacritty
 	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
 
-	# Set up packer for neovim
-	[ $CANDOWNLOAD -ne 0 ] && [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ] && \
-		git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-		~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-	# Symlink Nvim config, too lazy to continue the usual hard/cp thingy rn
-	ln -sfv "$(realpath .config/nvim)" ~/.config
-
 	# Download dracula theme for alacritty
 	[ $CANDOWNLOAD -ne 0 ] && [ ! -d ~/.config/alacritty/alacritty-dracula ] && \
 		git clone https://github.com/dracula/alacritty \
 		~/.config/alacritty/alacritty-dracula
+
+	# TODO: download p10k recommended font?
 }
 
 check_opts() {
