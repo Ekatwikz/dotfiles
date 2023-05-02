@@ -15,6 +15,10 @@ main () {
 	mkdir -pv ~/.config/nvim
 	$SETUPMETHOD -fv ./.config/nvim/init.lua ~/.config/nvim
 
+	# Link/Copy i3 config
+	mkdir -pv ~/.config/i3
+	$SETUPMETHOD -fv ./.config/i3/config ~/.config/i3/
+
 	# Link/Copy alacritty config
 	mkdir -pv ~/.config/alacritty
 	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
