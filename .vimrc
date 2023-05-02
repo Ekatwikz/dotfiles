@@ -1,5 +1,8 @@
 """ useful to have a base to build on
-so $VIMRUNTIME/defaults.vim
+""" I don't source this in neovim tho
+if !has('nvim')
+	so $VIMRUNTIME/defaults.vim
+endif
 
 """ must have
 " line numbers
@@ -22,3 +25,4 @@ set pastetoggle=<F12>
 """ extra
 set sc
 set confirm
+

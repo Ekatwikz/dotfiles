@@ -17,12 +17,18 @@ main () {
 	mkdir -pv ~/.config/alacritty
 	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
 
+	# Set up packer for neovim
+	[ $CANDOWNLOAD -ne 0 ] && [ ! -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim ] && \
+		git clone --depth 1 https://github.com/wbthomason/packer.nvim \
+		~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
 	# Symlink Nvim config, too lazy to continue the usual hard/cp thingy rn
-	ln -sv .config/nvim ~/.config
+	ln -sfv "$(realpath .config/nvim)" ~/.config
 
 	# Download dracula theme for alacritty
 	[ $CANDOWNLOAD -ne 0 ] && [ ! -d ~/.config/alacritty/alacritty-dracula ] && \
-		git clone https://github.com/dracula/alacritty ~/.config/alacritty/alacritty-dracula
+		git clone https://github.com/dracula/alacritty \
+		~/.config/alacritty/alacritty-dracula
 }
 
 check_opts() {
