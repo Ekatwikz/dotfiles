@@ -1,6 +1,10 @@
 """ useful to have a base to build on
 " +Cheap hack to make this work with neovim too, will fix later
-so $VIMRUNTIME/../../vim/vim90/defaults.vim
+if has("nvim")
+	so ~/.vimdefaults.vim
+else
+	so $VIMRUNTIME/defaults.vim
+end
 
 """ must have
 " line numbers

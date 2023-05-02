@@ -9,7 +9,7 @@ CANDOWNLOAD=1
 
 main () {
 	# Link/Copy config files to user home
-	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc ~
+	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc .vimdefaults.vim ~
 
 	# Link/Copy Nvim config
 	mkdir -pv ~/.config/nvim
