@@ -200,6 +200,7 @@ require('lazy').setup({
       {'neovim/nvim-lspconfig'},             -- Required
       {                                      -- Optional
         'williamboman/mason.nvim',
+        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
         build = function()
           pcall(vim.cmd, 'MasonUpdate')
         end,
