@@ -14,7 +14,8 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:monospace 8
+#font pango:monospace 8
+font pango:MesloLGS NF 10
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -37,8 +38,8 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
@@ -46,13 +47,18 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Shift+Return exec gnome-terminal
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill
+bindsym $mod+F4 kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+#bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+d exec "rofi -modi drun,run -show drun"
+
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -185,3 +191,72 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
 }
+
+# Just give focus if it's requested lol
+# not sure if this will haunt me later
+focus_on_window_activation focus
+
+# Switch to same workspace to go back
+workspace_auto_back_and_forth yes
+
+# gaps between windows and to screen edges
+gaps inner 10px
+
+# additional gap to screen edges
+#gaps outer 5px
+
+# read 1 character and mark the current window with this character
+bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+
+# read 1 character and go to the window with the character
+bindsym $mod+g exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+# window icons
+for_window [all] title_window_icon on
+for_window [all] title_window_icon padding 2px
+
+# Make the currently focused window a scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the first scratchpad window
+bindsym $mod+minus scratchpad show
+
+# set wallpaper
+exec_always feh --bg-fill /usr/share/backgrounds/custom/background.jpg
+
+# start compositor
+exec_always picom --experimental-backends --daemon
+
+# Shortcut for Lockscreen
+bindsym $mod+x exec $HOME/.config/scripts/lock
+
+# Brightness control shortcuts
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 3 # increase by 3
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 3 # decrease by 3
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioNext exec playerctl next
+
+# screenshot stuff
+for_window [class="Gnome-screenshot"] floating enable
+bindsym --release Control+Shift+Print exec gnome-screenshot -ac
+bindsym --release Control+Print exec gnome-screenshot -c
+# TODO: this one should be +Alt, but it's rekt rn:
+bindsym --release Control+$mod+Print exec gnome-screenshot -wc
+
+bindsym --release Print exec gnome-screenshot -i
+
+# chat stuff to Workspace 4
+assign [class="TelegramDesktop"] 4
+assign [class="Whatsapp-for-linux"] 4
+
+# Calender should float
+for_window [class="Gnome-calender"] floating enable
+
+# Num lock active
+#exec_always --no-startup-id numlockx on
+
+# Try start libinput?
+exec_always libinput-gestures autostart start
+
