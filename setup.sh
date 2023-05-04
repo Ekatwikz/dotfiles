@@ -36,6 +36,10 @@ main () {
 		git clone https://github.com/dracula/alacritty \
 		~/.config/alacritty/alacritty-dracula
 
+	# Install bumblebeestatus (my i3 config assumes this goes to ~/.local)
+	[ $CANDOWNLOAD -eq 0 ] || pip3 show -qq bumblebee-status || \
+		pip3 install --user bumblebee-status
+
 	# TODO: download p10k recommended font?
 }
 
@@ -56,6 +60,9 @@ check_opts() {
 
 	[ $CANDOWNLOAD -eq 0 ] || command -v git >/dev/null \
 		|| err_msg "No git??"
+
+	[ $CANDOWNLOAD -eq 0 ] || command -v pip3 >/dev/null \
+		|| err_msg "No pip3??"
 
 	main "$@"
 }
