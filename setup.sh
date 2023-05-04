@@ -19,6 +19,14 @@ main () {
 	mkdir -pv ~/.config/i3
 	$SETUPMETHOD -fv ./.config/i3/config ~/.config/i3/
 
+	# Link/Copy picom config
+	mkdir -pv ~/.config/picom
+	$SETUPMETHOD -fv ./.config/picom/picom.conf ~/.config/picom.conf
+
+	# Link/Copy scripts
+	mkdir -pv ~/.config/scripts
+	$SETUPMETHOD -fv ./.config/scripts/lock ~/.config/scripts/lock
+
 	# Link/Copy alacritty config
 	mkdir -pv ~/.config/alacritty
 	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
