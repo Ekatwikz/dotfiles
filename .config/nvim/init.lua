@@ -286,6 +286,8 @@ require('lazy').setup({
     opts = {
       char = '┊',
       show_trailing_blankline_indent = false,
+      filetype_exclude = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+      show_current_context = false,
     },
   },
 
@@ -385,6 +387,32 @@ vim.o.timeoutlen = 300
 
 -- [[ Undotree ]]
 vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = '[U]ndotree Toggle' })
+
+-- [[ Indentation Setup ]]
+vim.opt.list = true
+--vim.opt.listchars:append "space:⋅"
+--vim.opt.listchars:append "eol:↴"
+
+--vim.cmd [[highlight IndentBlanklineIndent1 guibg=#1f1f1f gui=nocombine]]
+--vim.cmd [[highlight IndentBlanklineIndent2 guibg=#1a1a1a gui=nocombine]]
+
+require("indent_blankline").setup {
+  space_char_blankline = " ",
+  show_current_context = true,
+  show_current_context_start = true,
+  --char = "",
+
+  --[[
+  char_highlight_list = {
+    "IndentBlanklineIndent1",
+    "IndentBlanklineIndent2",
+  },
+  space_char_highlight_list = {
+    "IndentBlanklineIndent1",
+    "IndentBlanklineIndent2",
+  },
+  --]]
+}
 
 -- [[ Dracula Theme setup ]]
 require("dracula").setup({
