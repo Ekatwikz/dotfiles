@@ -32,6 +32,10 @@ set scs
 " goofy ahh search highlight shouldn't hang around
 set nohls
 
+" make jumping through wrapped lines more comfortable
+nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+
 """ extra
 set sc
 set confirm
