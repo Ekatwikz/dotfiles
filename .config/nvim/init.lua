@@ -263,6 +263,11 @@ require('lazy').setup({
       vim.cmd.colorscheme 'dracula' -- ??
       vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+
+      vim.cmd('hi link TelescopeNormal NormalFloat')
+      vim.cmd('hi link TelescopeBorder FloatBorder')
+      vim.cmd('hi link TelescopePreviewNormal NormalFloat')
+      vim.cmd('hi link TelescopeResultsNormal NormalFloat')
     end,
   },
 
