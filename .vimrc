@@ -40,8 +40,10 @@ nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
 set sc
 set confirm
 
-" colors:
-set tgc
+" 24-bit colors if not in tty:
+if $TERM != 'linux'
+	set tgc
+end
 
 " highlight current line no.
 " looks kinda ugly in vim for now tho

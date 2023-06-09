@@ -8,9 +8,12 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# p10k renders wayyy to goofy in a tty
+if [[ $TERM == "linux" ]]; then
+    ZSH_THEME="gnzh"
+else
+    ZSH_THEME="powerlevel10k/powerlevel10k"
+fi
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
