@@ -8,6 +8,11 @@ SETUPMETHOD="cp"
 CANDOWNLOAD=1
 
 main () {
+	# In case run from somewhere else?
+	# might change this
+	# shellcheck disable=all # dumb suggestions from SC sometimes lol
+	cd "$(realpath $(dirname $0))"
+
 	# Link/Copy config files to user home
 	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc .vimdefaults.vim ~
 
