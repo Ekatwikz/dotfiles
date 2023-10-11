@@ -559,21 +559,7 @@ vim.keymap.set('n', '<leader>sd', function() Util.telescope("diagnostics")() end
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = {
-    -- Just auto lol
-    --[[
-    'c',
-    'cpp',
-    'go',
-    'lua',
-    'python',
-    'rust',
-    'tsx',
-    'typescript',
-    'vimdoc',
-    'vim'
-    --]]
-  },
+  ensure_installed = { },
 
   -- Autoinstall languages that are not installed.
   auto_install = true,
@@ -694,20 +680,8 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
+  -- add servers here, eg:
   -- clangd = {},
-  -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
-  -- tsserver = {},
-
-  --[[
-  lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
-  },
-  --]]
 }
 
 -- Setup neovim lua configuration
