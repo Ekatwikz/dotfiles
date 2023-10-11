@@ -38,7 +38,8 @@ main () {
 
 	# Install bumblebeestatus (my i3 config assumes this goes to ~/.local)
 	[ $CANDOWNLOAD -eq 0 ] || pip3 show -qq bumblebee-status || \
-		pip3 install --user bumblebee-status
+		pip3 install --user bumblebee-status || \
+		echo "Oops??" # TMP! Probably not the best way to suppress this error lol
 
 	# TODO: download p10k recommended font?
 }
