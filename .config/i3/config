@@ -216,8 +216,8 @@ bar {
 	#tray_output primary
         #status_command i3status
 	status_command ~/.local/bin/bumblebee-status \
-                -m brightness pasource pasink battery cpu datetime \
-		-p datetime.format="%I:%M:%S %p - %a, %b %d %Y" \
+                -m pasource pasink battery cpu datetime system \
+		-p datetime.format="%I:%M:%S %p - %a, %b %d %Y" system.lock="$HOME/.config/scripts/lock" \
 		-t dracula-powerline
 }
 
