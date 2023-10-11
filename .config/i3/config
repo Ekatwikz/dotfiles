@@ -190,7 +190,7 @@ bindsym $mod+r mode "resize"
 
 # Dracula theme
 # class                 border  bground text    indicator child_border
-client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+#client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
 client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
 client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
 client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
@@ -250,6 +250,10 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
+# setup an alacritty scratchpad
+exec --no-startup-id alacritty
+exec i3-msg '[class="Alacritty"] move scratchpad' # doesn't work :(
+
 # set wallpaper
 exec_always feh --bg-fill /usr/share/backgrounds/custom/background.jpg
 
@@ -279,9 +283,14 @@ bindsym --release Print exec gnome-screenshot -i
 # chat stuff to Workspace 4
 assign [class="TelegramDesktop"] 4
 assign [class="Whatsapp-for-linux"] 4
+assign [class="discord"] 4
 
-# Calender should float
-for_window [class="Gnome-calender"] floating enable
+# Calender should float (doesn't work. shocking.)
+#for_window [class="Gnome-calender"] floating enable
+for_window [class="(?i)Gnome-calender"] floating enable
+
+# Desktop wiki thing should float too
+for_window [class="Zim"] floating enable
 
 # Num lock active
 #exec_always --no-startup-id numlockx on
