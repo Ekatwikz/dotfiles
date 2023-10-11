@@ -246,16 +246,6 @@ require('lazy').setup({
     },
   },
 
-  --[[
-  { -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
-  --]]
-
   {
     'Mofiqul/dracula.nvim',
     priority = 1000,
@@ -274,13 +264,18 @@ require('lazy').setup({
   { -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
     -- See `:help lualine.txt`
+    event = "VeryLazy",
     opts = {
       options = {
         --icons_enabled = false,
         --theme = 'dracula',
-        component_separators = '|',
-        section_separators = '',
+        --component_separators = '|',
+        --section_separators = '',
+        globalstatus = true,
+        disabled_filetypes = { statusline = { "dashboard", "alpha" } },
       },
+
+      extensions = { "neo-tree", "lazy" },
     },
   },
 
@@ -289,7 +284,7 @@ require('lazy').setup({
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
     opts = {
-      char = '┊',
+      --char = '|',
       show_trailing_blankline_indent = false,
       filetype_exclude = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
       show_current_context = false,
@@ -356,6 +351,8 @@ require('lazy').setup({
         bind_to_cwd = false,
         follow_current_file = true,
         use_libuv_file_watcher = true,
+        hijack_netrw_behavior = "disabled", -- actually OC :)
+        group_empty_dirs = true
       },
       window = {
         mappings = {
@@ -370,11 +367,6 @@ require('lazy').setup({
           expander_highlight = "NeoTreeExpander",
         },
       },
-
-      -- actually OC, xdd:
-      filesystem = {
-        hijack_netrw_behavior = "disabled",
-      }
     },
     config = function(_, opts)
       require("neo-tree").setup(opts)
