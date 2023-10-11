@@ -287,3 +287,7 @@ for_window [class="Gnome-calender"] floating enable
 # Try start libinput?
 exec_always libinput-gestures autostart start
 
+# no borders!
+default_floating_border pixel 0
+default_border pixel 0
+
