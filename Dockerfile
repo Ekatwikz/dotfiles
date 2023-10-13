@@ -2,7 +2,7 @@ FROM alpine:edge
 WORKDIR /root
 
 # Prereqs + useful packages
-RUN apk add git ripgrep neovim py3-pip make clang wget mandoc man-pages coreutils util-linux zsh
+RUN apk add git ripgrep neovim py3-pip make clang wget mandoc man-pages coreutils util-linux zsh lazygit
 
 # Install OMZ
 RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
