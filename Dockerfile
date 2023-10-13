@@ -17,12 +17,18 @@ RUN git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_C
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # Install nvm, it's so cursed that this requires specifically bash tho
-RUN apk add bash && wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash && apk del bash
+RUN apk add bash
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
 
 # Install autojump
 # We have to lie that we're already running zsh or it'll refuse
 RUN git clone --depth=1 https://github.com/wting/autojump
 RUN export SHELL=zsh && cd /root/autojump && ./install.py
+
+# Cleanup... ?
+# I'm not sure if I should do stuff like this, don't know Docker best practices
+RUN apk del bash
+RUN rm -rf autojump
 
 # Run zsh
 ENTRYPOINT [ "zsh" ]
