@@ -69,9 +69,11 @@ source $ZSH/oh-my-zsh.sh
 command -v chroma 1> /dev/null\
     && export ZSH_COLORIZE_TOOL="chroma"
 
-# Autojump
+# Autojump, first one is the old one or something, idk
 [ -f /usr/share/autojump/autojump.sh ]\
     && . /usr/share/autojump/autojump.sh
+[[ -s /root/.autojump/etc/profile.d/autojump.sh ]]\
+    && source /root/.autojump/etc/profile.d/autojump.sh
 
 # idk, could be useful?
 [ -z $PKG_CONFIG_PATH ] && [ -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ]\
