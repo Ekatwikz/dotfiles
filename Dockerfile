@@ -7,10 +7,6 @@ RUN apk add git ripgrep neovim py3-pip make clang wget mandoc man-pages coreutil
 # Install OMZ
 RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Setup the dotfiles
-COPY . dotfiles
-RUN /root/dotfiles/setup.sh
-
 # Install p10k theme, + some external omz plugins
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
@@ -24,6 +20,10 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | 
 # We have to lie that we're already running zsh or it'll refuse
 RUN git clone --depth=1 https://github.com/wting/autojump
 RUN export SHELL=zsh && cd /root/autojump && ./install.py
+
+# Setup the dotfiles
+COPY . dotfiles
+RUN /root/dotfiles/setup.sh -H
 
 # Cleanup... ?
 # I'm not sure if I should do stuff like this, don't know Docker best practices
