@@ -1,3 +1,9 @@
+# Fetch if there's some fetch script
+# See: https://github.com/romkatv/powerlevel10k/issues/1883
+[ ! -f "$HOME/.fetch_on_shell_start.sh" ] \
+    || typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet \
+    && $HOME/.fetch_on_shell_start.sh
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -101,8 +107,8 @@ export EDITOR=nvim
     || source ~/.p10k.zsh
 
 # GHC!
-[ -f "$HOME/.ghcup/env" ] \
-    && source "$HOME/.ghcup/env" # ghcup-env
+[ ! -f "$HOME/.ghcup/env" ] \
+    || source "$HOME/.ghcup/env" # ghcup-env
 
 # nnn autocd thingy, don't bother if it's not installed or whatever
 (command -v nnn && ! command -v n) 1> /dev/null && \
