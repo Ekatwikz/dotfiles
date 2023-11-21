@@ -57,3 +57,18 @@ end
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
+" some clipboard stuff
+" not sure if I should check for clipboard like this
+if has("clipboard")
+	nnoremap <leader>y "+y
+	nnoremap <leader>Y "+Y
+	vnoremap <leader>y "+y
+
+	nnoremap <leader>d "_d
+	vnoremap <leader>d "_d
+
+	" + a dangerous experiment of my own,
+	" not sure if I should keep this at all
+	set clipboard+=unnamedplus
+end
+
