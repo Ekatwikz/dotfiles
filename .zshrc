@@ -45,12 +45,12 @@ source $ZSH/oh-my-zsh.sh
 #/usr/local/texlive/2022/texmf-dist/doc/info to INFOPATH
 
 # Nvidia stuff
-[ -d "/usr/local/cuda-12.0/bin" ]\
-    && PATH="/usr/local/cuda-12.0/bin${PATH:+:${PATH}}"
+[ -d "/usr/local/cuda-12.3/bin" ]\
+    && PATH="/usr/local/cuda-12.3/bin${PATH:+:${PATH}}"
 
 # TODO: use this cool syntax everywhere else too?
-[ -d "/usr/local/cuda-12.0/lib64" ]\
-    && LD_LIBRARY_PATH="/usr/local/cuda-12.0/lib64\
+[ -d "/usr/local/cuda-12.3/lib64" ]\
+    && LD_LIBRARY_PATH="/usr/local/cuda-12.3/lib64\
         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 # Android stuff
