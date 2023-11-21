@@ -97,6 +97,10 @@ command -v chroma 1> /dev/null\
 [[ ! -f ~/.p10k.zsh ]]\
     || source ~/.p10k.zsh
 
+# GHC!
+[ -f "$HOME/.ghcup/env" ] \
+    && source "$HOME/.ghcup/env" # ghcup-env
+
 # nnn autocd thingy, don't bother if it's not installed or whatever
 (command -v nnn && ! command -v n) 1> /dev/null && \
 n () {
