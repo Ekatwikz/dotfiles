@@ -363,9 +363,12 @@ require('lazy').setup({
       end
     end,
     opts = {
+      close_if_last_window = true,
       filesystem = {
         bind_to_cwd = false,
-        follow_current_file = true,
+        follow_current_file = {
+          enabled = true,
+        },
         use_libuv_file_watcher = true,
         hijack_netrw_behavior = "disabled", -- actually OC :)
         group_empty_dirs = true
