@@ -52,3 +52,8 @@ if has("nvim")
 	set culopt=number
 end
 
+""" Stuff I yoinked from Prime's config
+" "select-and-move" (mad epic I do say)
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
