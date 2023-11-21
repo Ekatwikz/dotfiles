@@ -97,6 +97,46 @@ command -v chroma 1> /dev/null\
 [[ ! -f ~/.p10k.zsh ]]\
     || source ~/.p10k.zsh
 
+# nnn autocd thingy, don't bother if it's not installed or whatever
+(command -v nnn && ! command -v n) 1> /dev/null && \
+n () {
+    # Block nesting of nnn in subshells
+    [ "${NNNLVL:-0}" -eq 0 ] || {
+        echo "nnn is already running"
+        return
+    }
+
+    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
+    # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
+    # see. To cd on quit only on ^G, remove the "export" and make sure not to
+    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
+    #      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
+
+    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
+    # stty start undef
+    # stty stop undef
+    # stty lwrap undef
+    # stty lnext undef
+
+    # The command builtin allows one to alias nnn to n, if desired, without
+    # making an infinitely recursive alias
+    command nnn "$@"
+
+    [ ! -f "$NNN_TMPFILE" ] || {
+        . "$NNN_TMPFILE"
+        rm -f "$NNN_TMPFILE" > /dev/null
+    }
+}
+
+# My beginner nnn plugins
+# https://github.com/jarun/nnn/tree/master/plugins#list-of-plugins
+export NNN_PLUG='j:autojump;o:fzopen'
+
+# Dracula Theme for nnn
+BLK="E4" CHR="E4" DIR="8D" EXE="54" REG="00" HARDLINK="00" SYMLINK="75" MISSING="00" ORPHAN="CB" FIFO="E4" SOCK="D4" OTHER="8D"
+export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+
 ### Semi-auto setups:
 
 # Conda
