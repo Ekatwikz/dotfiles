@@ -2,7 +2,7 @@ FROM alpine:edge
 WORKDIR /root
 
 # Prereqs + useful packages
-RUN apk add git ripgrep neovim py3-pip make clang wget mandoc man-pages coreutils util-linux zsh lazygit
+RUN apk add git ripgrep neovim py3-pip make g++ wget mandoc man-pages coreutils util-linux zsh lazygit
 
 # Install OMZ
 RUN sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -23,7 +23,14 @@ RUN export SHELL=zsh && cd /root/autojump && ./install.py
 
 # Setup the dotfiles
 COPY . dotfiles
+COPY ./.fetch_on_shell_start.sh .
 RUN /root/dotfiles/setup.sh -H
+
+# Tryna give zsh and nvim a bit of a "dry run" so they can setup what they need as part of the build
+# The p10k bit seems to hang even when it succeeds tho?
+# so I'm just sniping it after a few seconds, then pretending it succeeded (it usually did)
+RUN timeout --verbose --signal=TERM --kill-after=20s 15s sh -c 'echo exit | script -ec zsh /dev/null' || true
+RUN nvim --headless +"q"
 
 # Cleanup... ?
 # I'm not sure if I should do stuff like this, don't know Docker best practices
