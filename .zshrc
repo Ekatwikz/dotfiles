@@ -93,6 +93,9 @@ command -v chroma 1> /dev/null\
 (command -v nvim && ! command -v nv) 1> /dev/null\
     && alias nv=nvim
 
+# Neovim as editor?
+export EDITOR=nvim
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]]\
     || source ~/.p10k.zsh
