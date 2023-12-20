@@ -34,7 +34,7 @@ main () {
 
 	# Link/Copy alacritty config
 	mkdir -pv ~/.config/alacritty
-	$SETUPMETHOD -fv ./.config/alacritty/alacritty.yml ~/.config/alacritty/
+	$SETUPMETHOD -fv ./.config/alacritty/alacritty.toml ~/.config/alacritty/
 
 	# Download dracula theme for alacritty
 	[ $CANDOWNLOAD -eq 0 ] || [ -d ~/.config/alacritty/alacritty-dracula ] || \

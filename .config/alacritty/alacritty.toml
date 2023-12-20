@@ -1,0 +1,23 @@
+import = ["/home/ekatwikz/.config/alacritty/alacritty-dracula/dracula.toml"]
+
+[cursor.style]
+blinking = "Always"
+shape = "Block"
+
+[debug]
+highlight_damage = false
+render_timer = false
+
+[font]
+size = 8.0
+
+[font.normal]
+family = "MesloLGS NF"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Super|Control"
+
+[window]
+opacity = 0.9
