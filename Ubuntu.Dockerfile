@@ -48,7 +48,7 @@ RUN rm -rv autojump
 # Setup the dotfiles
 COPY . dotfiles
 COPY ./.fetch_on_shell_start.sh .
-RUN /root/dotfiles/setup.sh -H
+RUN /root/dotfiles/setup.sh -Hn
 
 # Tryna give zsh and nvim a bit of a "dry run" so they can setup what they need as part of the build
 # not sure if this is proper though, especially for the neovim part

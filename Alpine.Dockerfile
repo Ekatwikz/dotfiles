@@ -24,7 +24,7 @@ RUN export SHELL=zsh && cd /root/autojump && ./install.py
 # Setup the dotfiles
 COPY . dotfiles
 COPY ./.fetch_on_shell_start.sh .
-RUN /root/dotfiles/setup.sh -H
+RUN /root/dotfiles/setup.sh -Hn
 
 # might wanna try and be smarter about this later on
 RUN cat /root/dotfiles/.includes.gitconfig >> $HOME/.gitconfig
