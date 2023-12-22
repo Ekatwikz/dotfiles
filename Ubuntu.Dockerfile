@@ -5,10 +5,8 @@ RUN apt-get update && apt-get install -y \
 	git \
 	ripgrep \
 	vim \
-	neovim \
 	make \
 	g++ \
-	clang \
 	wget \
 	zsh \
 	python3-pip
