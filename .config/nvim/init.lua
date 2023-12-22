@@ -682,7 +682,9 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   -- add servers here, eg:
-  -- clangd = {},
+  --clangd = {},
+  --asm_lsp = {},
+  --glsl_analyzer = {}, -- ???
 }
 
 -- Setup neovim lua configuration
@@ -698,6 +700,8 @@ local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
+
+require('lspconfig').glsl_analyzer.setup({})
 
 mason_lspconfig.setup_handlers {
   function(server_name)
