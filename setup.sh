@@ -14,7 +14,7 @@ main () {
 	cd "$(realpath $(dirname $0))"
 
 	# Link/Copy config files to user home
-	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc .vimdefaults.vim ~
+	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc .vimdefaults.vim .delta.gitconfig ~
 
 	# Link/Copy Nvim config
 	mkdir -pv ~/.config/nvim
@@ -35,6 +35,10 @@ main () {
 	# Link/Copy alacritty config
 	mkdir -pv ~/.config/alacritty
 	$SETUPMETHOD -fv ./.config/alacritty/alacritty.toml ~/.config/alacritty/
+
+	# Link/Copy lazygit config
+	mkdir -pv ~/.config/lazygit
+	$SETUPMETHOD -fv ./.config/lazygit/config.yml ~/.config/lazygit
 
 	# Download dracula theme for alacritty
 	[ $CANDOWNLOAD -eq 0 ] || [ -d ~/.config/alacritty/alacritty-dracula ] || \

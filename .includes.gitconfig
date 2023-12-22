@@ -1,0 +1,3 @@
+# Add this to your .gitconfig after installing .delta.gitconfig
+[include]
+	path = ~/.delta.gitconfig
