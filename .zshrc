@@ -50,6 +50,12 @@ source $ZSH/oh-my-zsh.sh
 #/usr/local/texlive/2022/texmf-dist/doc/man to MANPATH
 #/usr/local/texlive/2022/texmf-dist/doc/info to INFOPATH
 
+# LocalBin; this wasn't already on PATH??
+# Hopefully that's just random and it wasn't for a good reason
+# that I'll find out the hard way...
+[ -d "$HOME/.local/bin" ]\
+    && PATH="$HOME/.local/bin${PATH:+:${PATH}}"
+
 # Nvidia stuff
 [ -d "/usr/local/cuda-12.3/bin" ]\
     && PATH="/usr/local/cuda-12.3/bin${PATH:+:${PATH}}"
