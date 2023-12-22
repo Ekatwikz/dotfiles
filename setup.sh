@@ -7,6 +7,8 @@ USAGE="Usage: $0 { [-H] [-n] | -h }"
 SETUPMETHOD="cp"
 CANDOWNLOAD=1
 
+# TODO: try and do this by mentioning entire folders
+# instead of specific files, ugh
 main () {
 	# In case run from somewhere else?
 	# might change this
@@ -39,6 +41,12 @@ main () {
 	# Link/Copy lazygit config
 	mkdir -pv ~/.config/lazygit
 	$SETUPMETHOD -fv ./.config/lazygit/config.yml ~/.config/lazygit
+
+	# simple hack to try not show the popup on initial setup
+	[ ! -e ./.config/lazygit/state.yml ] \
+		|| $SETUPMETHOD -fv ./.config/lazygit/state.yml ~/.config/lazygit
+
+	# TODO: move all the download nonsense somewhere else
 
 	# Download dracula theme for alacritty
 	[ $CANDOWNLOAD -eq 0 ] || [ -d ~/.config/alacritty/alacritty-dracula ] || \
