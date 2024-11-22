@@ -127,6 +127,7 @@ command -v databricks 1> /dev/null\
     && . <(databricks completion zsh)
 
 # nnn autocd thingy, don't bother if it's not installed or whatever
+# Also turn off the goofy auto-enter thing
 (command -v nnn && ! command -v n) 1> /dev/null && \
 n () {
     # Block nesting of nnn in subshells
@@ -150,7 +151,7 @@ n () {
 
     # The command builtin allows one to alias nnn to n, if desired, without
     # making an infinitely recursive alias
-    command nnn "$@"
+    command nnn -A "$@"
 
     [ ! -f "$NNN_TMPFILE" ] || {
         . "$NNN_TMPFILE"
