@@ -120,6 +120,10 @@ export EDITOR=nvim
 [ ! -f "$HOME/.ghcup/env" ] \
     || source "$HOME/.ghcup/env" # ghcup-env
 
+# Databricks CLI
+command -v databricks 1> /dev/null\
+    && . <(databricks completion zsh)
+
 # nnn autocd thingy, don't bother if it's not installed or whatever
 (command -v nnn && ! command -v n) 1> /dev/null && \
 n () {
