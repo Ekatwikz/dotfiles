@@ -126,6 +126,9 @@ export EDITOR=nvim
 command -v databricks 1> /dev/null\
     && . <(databricks completion zsh)
 
+[ -d "/usr/local/go/bin" ] \
+    && PATH="/usr/local/go/bin${PATH:+:${PATH}}"
+
 # nnn autocd thingy, don't bother if it's not installed or whatever
 # Also turn off the goofy auto-enter thing
 (command -v nnn && ! command -v n) 1> /dev/null && \
