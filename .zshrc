@@ -63,12 +63,12 @@ if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.z
     && PATH="$HOME/.local/bin${PATH:+:${PATH}}"
 
 # Nvidia stuff
-[ -d "/usr/local/cuda-12.3/bin" ]\
-    && PATH="/usr/local/cuda-12.3/bin${PATH:+:${PATH}}"
+[ -d "/usr/local/cuda-12/bin" ]\
+    && PATH="/usr/local/cuda-12/bin${PATH:+:${PATH}}"
 
 # TODO: use this cool syntax everywhere else too?
-[ -d "/usr/local/cuda-12.3/lib64" ]\
-    && LD_LIBRARY_PATH="/usr/local/cuda-12.3/lib64\
+[ -d "/usr/local/cuda-12/lib64" ]\
+    && LD_LIBRARY_PATH="/usr/local/cuda-12/lib64\
         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
 # Android stuff
