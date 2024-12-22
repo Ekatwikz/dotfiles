@@ -22,8 +22,11 @@ set ai
 set si
 set bri
 
-" F12 toggles paste mode
-set pt=<F12>
+" F12 toggles paste mode,
+" is built into to nvim tho
+if !has("nvim")
+	set pt=<F12>
+end
 
 " case insensitivity for ez searches (unless \C, see :h /ignorecase)
 set ic
