@@ -16,7 +16,20 @@ main () {
 	cd "$(realpath $(dirname $0))"
 
 	# Link/Copy config files to user home
-	$SETUPMETHOD -fv .inputrc .vimrc .tmux.conf .p10k.zsh .zshrc .nvmrc .bashrc .vimdefaults.vim .delta.gitconfig ~
+	$SETUPMETHOD -fv \
+		.inputrc \
+		.vimrc \
+		.tmux.conf \
+		.p10k.zsh \
+		.zshrc \
+		.nvmrc \
+		.bashrc \
+		.vimdefaults.vim \
+		.delta.gitconfig \
+		.gdbinit \
+		~
+
+	# TODO: make this next section less repetitive
 
 	# Link/Copy Nvim config
 	mkdir -pv ~/.config/nvim
