@@ -118,6 +118,8 @@ fi
 
 [ ! -f "$HOME/.commonrc.sh" ] \
     || . "$HOME/.commonrc.sh"
+source_if_exists "/usr/share/autojump/autojump.sh"
+source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
 
 # NVM stuff
 # export NVM_DIR="$HOME/.nvm"
