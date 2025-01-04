@@ -34,6 +34,12 @@ add_to_path "$HOME/.cargo/bin:$PATH"
 [ ! -d "$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man" ]\
 	|| export MANPATH="$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man:${MANPATH:-$(manpath)}"
 
+# GHC!
+source_if_exists "$HOME/.ghcup/env"
+
+# Go
+source_if_exists "/usr/local/go/bin"
+
 # idk, could be useful?
 { [ -n "$PKG_CONFIG_PATH" ] || [ ! -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ] ; } \
     || export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
@@ -47,11 +53,6 @@ add_to_path "$HOME/.cargo/bin:$PATH"
 # Neovim!
 { ! command -v nvim || command -v nv ; } 1> /dev/null \
     || { alias nv=nvim && export EDITOR=nvim ; }
-
-# GHC!
-source_if_exists "$HOME/.ghcup/env"
-
-source_if_exists "/usr/local/go/bin"
 
 # nnn autocd thingy, don't bother if it's not installed or whatever
 # Also turn off the goofy auto-enter thing
