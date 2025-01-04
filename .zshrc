@@ -2,7 +2,7 @@
 # See: https://github.com/romkatv/powerlevel10k/issues/1883
 [ ! -f "$HOME/.fetch_on_shell_start.sh" ] \
     || { typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet \
-    && $HOME/.fetch_on_shell_start.sh }
+    && $HOME/.fetch_on_shell_start.sh ; }
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
