@@ -120,6 +120,20 @@ fi
 
 [ ! -f "$HOME/.commonrc.sh" ] \
     || . "$HOME/.commonrc.sh"
+
+
+###
+
+{ ! command -v yazi || command -v y ; } 1>/dev/null ||
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 source_if_exists "/usr/share/autojump/autojump.sh"
 source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
 
@@ -191,4 +205,7 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+! command -v zoxide 1>/dev/null \
+    || eval "$(zoxide init bash)"
 

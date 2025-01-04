@@ -54,6 +54,16 @@ source $ZSH/oh-my-zsh.sh
 
 ### zsh specific:
 
+{ ! command -v yazi || command -v y ; } 1>/dev/null ||
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 # Add deno completions to search path
 if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.zsh/completions:$FPATH"; fi
 source_if_exists "$HOME/.deno/env"
@@ -143,4 +153,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+! command -v zoxide 1>/dev/null \
+    || eval "$(zoxide init zsh)"
 
