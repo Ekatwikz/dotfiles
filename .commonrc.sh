@@ -13,37 +13,21 @@ add_to_ld_lib_path() {
         || LD_LIBRARY_PATH="$1${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 }
 
-# set PATH so it includes texlive path if it exists
-# [ -d "/usr/local/texlive/2022/bin/x86_64-linux" ]\
-#     && PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
 add_to_path "/usr/local/texlive/2022/bin/x86_64-linux"
-# TODO?
-#/usr/local/texlive/2022/texmf-dist/doc/man to MANPATH
-#/usr/local/texlive/2022/texmf-dist/doc/info to INFOPATH
 
 # LocalBin; this wasn't already on PATH??
 # Hopefully that's just random and it wasn't for a good reason
 # that I'll find out the hard way...
-# [ -d "$HOME/.local/bin" ]\
-#     && PATH="$HOME/.local/bin${PATH:+:${PATH}}"
 add_to_path "$HOME/.local/bin"
 
 # Nvidia stuff
-# [ -d "/usr/local/cuda-12/bin" ] \
-#     && PATH="/usr/local/cuda-12/bin${PATH:+:${PATH}}"
 add_to_path "/usr/local/cuda-12/bin"
-
-# [ -d "/usr/local/cuda-12/lib64" ]\
-#     && LD_LIBRARY_PATH="/usr/local/cuda-12/lib64\
-#         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 add_to_ld_lib_path "/usr/local/cuda-12/lib64"
 
 # Android stuff
 add_to_path "$HOME/Android/Sdk/emulator" 
 
 # Rust stuff
-# [ -d "$HOME/.cargo/bin" ]\
-#     && PATH="$HOME/.cargo/bin:$PATH"
 add_to_path "$HOME/.cargo/bin:$PATH"
 
 # TODO: less specific?
@@ -61,19 +45,12 @@ add_to_path "$HOME/.cargo/bin:$PATH"
     || alias lzd=lazydocker
 
 # Neovim!
-{ ! command -v nvim || command -v nv ; } 1> /dev/null\
-    || alias nv=nvim
-
-# Neovim as editor?
-export EDITOR=nvim
+{ ! command -v nvim || command -v nv ; } 1> /dev/null \
+    || { alias nv=nvim && export EDITOR=nvim ; }
 
 # GHC!
-# [ ! -f "$HOME/.ghcup/env" ] \
-#     || source "$HOME/.ghcup/env" # ghcup-env
 source_if_exists "$HOME/.ghcup/env"
 
-# [ -d "/usr/local/go/bin" ] \
-#     && PATH="/usr/local/go/bin${PATH:+:${PATH}}"
 source_if_exists "/usr/local/go/bin"
 
 # nnn autocd thingy, don't bother if it's not installed or whatever
