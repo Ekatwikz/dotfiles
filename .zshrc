@@ -43,134 +43,40 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]]\
+    || source ~/.p10k.zsh
+
+### Comon stuffs and things
+
+[ ! -f "$HOME/.commonrc.sh" ] \
+    || . "$HOME/.commonrc.sh"
+
+### zsh specific:
+
 # Add deno completions to search path
 if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.zsh/completions:$FPATH"; fi
-[ ! -f "$HOME/.deno/env" ] || \
-    . "$HOME/.deno/env"
-
-### User configuration:
-
-# set PATH so it includes texlive path if it exists
-[ -d "/usr/local/texlive/2022/bin/x86_64-linux" ]\
-    && PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
-
-# TODO?
-#/usr/local/texlive/2022/texmf-dist/doc/man to MANPATH
-#/usr/local/texlive/2022/texmf-dist/doc/info to INFOPATH
-
-# LocalBin; this wasn't already on PATH??
-# Hopefully that's just random and it wasn't for a good reason
-# that I'll find out the hard way...
-[ -d "$HOME/.local/bin" ]\
-    && PATH="$HOME/.local/bin${PATH:+:${PATH}}"
-
-# Nvidia stuff
-[ -d "/usr/local/cuda-12/bin" ]\
-    && PATH="/usr/local/cuda-12/bin${PATH:+:${PATH}}"
-
-# TODO: use this cool syntax everywhere else too?
-[ -d "/usr/local/cuda-12/lib64" ]\
-    && LD_LIBRARY_PATH="/usr/local/cuda-12/lib64\
-        ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
-
-# Android stuff
-[ -d "$HOME/Android/Sdk/emulator" ]\
-    && PATH="$HOME/Android/Sdk/emulator:$PATH"
-
-# Rust stuff
-[ -d "$HOME/.cargo/bin" ]\
-    && PATH="$HOME/.cargo/bin:$PATH"
-
-# TODO: less specific?
-[ -d "$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man" ]\
-    && export MANPATH="$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/share/man:${MANPATH:-`manpath`}"
-
-# Go > Python xdd
-command -v chroma 1> /dev/null\
-    && export ZSH_COLORIZE_TOOL="chroma"
+source_if_exists "$HOME/.deno/env"
 
 # Autojump, first one is the old one or something, idk
-[ -f /usr/share/autojump/autojump.sh ]\
-    && . /usr/share/autojump/autojump.sh
-[[ -s $HOME/.autojump/etc/profile.d/autojump.sh ]]\
-    && source $HOME/.autojump/etc/profile.d/autojump.sh
-
-# idk, could be useful?
-[ -z $PKG_CONFIG_PATH ] && [ -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ]\
-    && export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig
+# [ -f /usr/share/autojump/autojump.sh ]\
+#     && . /usr/share/autojump/autojump.sh
+# [ -s $HOME/.autojump/etc/profile.d/autojump.sh ] \
+#     && source $HOME/.autojump/etc/profile.d/autojump.sh
+source_if_exists "/usr/share/autojump/autojump.sh"
+source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
 
 # for alacritty maybe? idk
 [ -d ${ZDOTDIR:-~}/.zsh_functions ]\
     && fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-# laaaaaaaazy
-(command -v lazygit && ! command -v lg) 1> /dev/null\
-    && alias lg=lazygit
-(command -v lazydocker && ! command -v lzd) 1> /dev/null\
-    && alias lzd=lazydocker
+# Go > Python xdd
+command -v chroma 1> /dev/null \
+    && export ZSH_COLORIZE_TOOL="chroma"
 
-# Neovim!
-(command -v nvim && ! command -v nv) 1> /dev/null\
-    && alias nv=nvim
-
-# Neovim as editor?
-export EDITOR=nvim
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]]\
-    || source ~/.p10k.zsh
-
-# GHC!
-[ ! -f "$HOME/.ghcup/env" ] \
-    || source "$HOME/.ghcup/env" # ghcup-env
-
-# Databricks CLI
-command -v databricks 1> /dev/null\
-    && . <(databricks completion zsh)
-
-[ -d "/usr/local/go/bin" ] \
-    && PATH="/usr/local/go/bin${PATH:+:${PATH}}"
-
-# nnn autocd thingy, don't bother if it's not installed or whatever
-# Also turn off the goofy auto-enter thing
-(command -v nnn && ! command -v n) 1> /dev/null && \
-n () {
-    # Block nesting of nnn in subshells
-    [ "${NNNLVL:-0}" -eq 0 ] || {
-        echo "nnn is already running"
-        return
-    }
-
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
-    # see. To cd on quit only on ^G, remove the "export" and make sure not to
-    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
-    #      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    # The command builtin allows one to alias nnn to n, if desired, without
-    # making an infinitely recursive alias
-    command nnn -A "$@"
-
-    [ ! -f "$NNN_TMPFILE" ] || {
-        . "$NNN_TMPFILE"
-        rm -f "$NNN_TMPFILE" > /dev/null
-    }
-}
-
-# My beginner nnn plugins
-# https://github.com/jarun/nnn/tree/master/plugins#list-of-plugins
-export NNN_PLUG='j:autojump;o:fzopen'
-
-# Dracula Theme for nnn
-BLK="E4" CHR="E4" DIR="8D" EXE="54" REG="00" HARDLINK="00" SYMLINK="75" MISSING="00" ORPHAN="CB" FIFO="E4" SOCK="D4" OTHER="8D"
-export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
+# Databricks CLI (probably not needed any more lol)
+# command -v databricks 1> /dev/null \
+#     && . <(databricks completion zsh)
 
 ### Semi-auto setups:
 # (ie: stuff that was generated by various programs)

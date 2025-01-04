@@ -116,30 +116,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
-export PATH="$HOME/.local/bin:/usr/local/bin:$PATH"
-
-# set PATH so it includes texlive path if it exists
-if [ -d "/usr/local/texlive/2022/bin/x86_64-linux" ] ; then
-    PATH="/usr/local/texlive/2022/bin/x86_64-linux:$PATH"
-fi
-
-# Nvidia stuff
-if [ -d "/usr/local/cuda-12.0/bin" ] ; then
-    PATH="/usr/local/cuda-12.0/bin${PATH:+:${PATH}}"
-fi
-if [ -d "/usr/local/cuda-12.0/lib64" ] ; then
-    LD_LIBRARY_PATH="/usr/local/cuda-12.0/lib64\
-                         ${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
-fi
-
-# Android stuff
-if [ -d "$HOME/Android/Sdk/emulator" ] ; then
-    PATH="$HOME/Android/Sdk/emulator:$PATH"
-fi
-
-# TODO?
-#/usr/local/texlive/2022/texmf-dist/doc/man to MANPATH
-#/usr/local/texlive/2022/texmf-dist/doc/info to INFOPATH
+[ ! -f "$HOME/.commonrc.sh" ] \
+    || . "$HOME/.commonrc.sh"
 
 # NVM stuff
 # export NVM_DIR="$HOME/.nvm"
@@ -209,6 +187,4 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-. "$HOME/.cargo/env"
 

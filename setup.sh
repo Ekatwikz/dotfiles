@@ -27,6 +27,7 @@ main () {
 		.vimdefaults.vim \
 		.delta.gitconfig \
 		.gdbinit \
+		.commonrc.sh \
 		~
 
 	# TODO: make this next section less repetitive
