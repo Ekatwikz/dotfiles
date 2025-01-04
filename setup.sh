@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -exu
+
 # -H to hardlink instead of copy
 # -n to disallow downloads
 USAGE="Usage: $0 { [-H] [-n] | -h }"
