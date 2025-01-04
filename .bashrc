@@ -116,6 +116,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+### Common stuffs:
+
 [ ! -f "$HOME/.commonrc.sh" ] \
     || . "$HOME/.commonrc.sh"
 source_if_exists "/usr/share/autojump/autojump.sh"
