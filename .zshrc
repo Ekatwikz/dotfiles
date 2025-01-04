@@ -34,7 +34,6 @@ plugins=(
     command-not-found
     aliases
     colorize
-    jfrog
 
     zsh-syntax-highlighting
 )
