@@ -38,7 +38,7 @@ add_to_path "$HOME/.cargo/bin:$PATH"
 source_if_exists "$HOME/.ghcup/env"
 
 # Go
-source_if_exists "/usr/local/go/bin"
+add_to_path "/usr/local/go/bin"
 
 # idk, could be useful?
 { [ -n "$PKG_CONFIG_PATH" ] || [ ! -d "/usr/lib/x86_64-linux-gnu/pkgconfig" ] ; } \
