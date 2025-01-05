@@ -95,3 +95,56 @@ export NNN_PLUG='j:autojump;o:fzopen;d:dragdrop'
 BLK="E4" CHR="E4" DIR="8D" EXE="54" REG="00" HARDLINK="00" SYMLINK="75" MISSING="00" ORPHAN="CB" FIFO="E4" SOCK="D4" OTHER="8D"
 export NNN_FCOLORS="$BLK$CHR$DIR$EXE$REG$HARDLINK$SYMLINK$MISSING$ORPHAN$FIFO$SOCK$OTHER"
 
+# TODO: clean up this wget_and_... stuff?
+
+command -v wget_and_dpkg_install 1> /dev/null ||
+wget_and_dpkg_install() {
+        [ -n "$1" ] \
+            || { echo 'URL??' && return 1 ; }
+
+        TMP_PACKAGE="$(mktemp)" \
+        && wget -O "$TMP_PACKAGE" "$1" \
+        && sudo dpkg -i "$TMP_PACKAGE"
+
+        RET=$?
+        rm -fv "$TMP_PACKAGE"
+        return $RET
+}
+
+command -v wget_and_untar 1> /dev/null ||
+wget_and_untar() {
+        [ -n "$1" ] \
+            || { echo 'URL??' && return 1 ; }
+
+        TMP_PACKAGE="$(mktemp)" \
+        && wget -O "$TMP_PACKAGE" "$1" \
+        && FILENAME_WITH_EXT="${1##*/}" \
+        BASE_FILENAME="${FILENAME_WITH_EXT%.tar.gz}"
+        mkdir -v "$BASE_FILENAME" \
+        && tar -C "$BASE_FILENAME" -xvf "$TMP_PACKAGE"
+
+        RET=$?
+        rm -fv "$TMP_PACKAGE"
+        [ $RET -eq 0 ] || rm -rfv "$BASE_FILENAME"
+        return $RET
+}
+
+command -v wget_and_unzip 1> /dev/null ||
+wget_and_unzip() {
+        [ -n "$1" ] \
+            || { echo 'URL??' && return 1 ; }
+
+        TMP_PACKAGE="$(mktemp)" \
+        && wget -O "$TMP_PACKAGE" "$1"
+
+        FILENAME_WITH_EXT="${1##*/}"
+        BASE_FILENAME="${FILENAME_WITH_EXT%.zip}"
+        mkdir -v "$BASE_FILENAME" \
+        && unzip "$TMP_PACKAGE" -d "$BASE_FILENAME"
+
+        RET=$?
+        rm -fv "$TMP_PACKAGE"
+        [ $RET -eq 0 ] || rm -rfv "$BASE_FILENAME"
+        return $RET
+}
+
