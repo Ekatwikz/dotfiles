@@ -37,6 +37,7 @@ plugins=(
     command-not-found
     aliases
     colorize
+    rust
 
     zsh-syntax-highlighting
 )
