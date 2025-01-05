@@ -1,59 +1,100 @@
 FROM ubuntu:rolling
-WORKDIR /root
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update \
+	&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	zsh \
 	git \
 	ripgrep \
 	vim \
 	make \
 	g++ \
 	wget \
-	zsh \
-	python3-pip
+	python3-pip \
+	file \
+	sudo \
+	&& apt-get clean
 
-#RUN apk add git ripgrep neovim py3-pip make clang wget mandoc man-pages coreutils util-linux zsh lazygit
+# https://docs.docker.com/reference/dockerfile/#user
+# https://github.com/moby/moby/issues/5419#issuecomment-41478290
+RUN groupadd -r dotsuser \
+	&& useradd -s /usr/bin/zsh -lrm -g dotsuser -G sudo dotsuser \
+	&& echo dotsuser:. | chpasswd
 
-# Install nvim
-RUN apt-get install -y ninja-build gettext cmake
-RUN git clone --depth=1 https://github.com/neovim/neovim
-# installs to /usr/local/bin, TODO: move to build stage
-RUN cd /root/neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo all install
+ENV HOME=/home/dotsuser
+WORKDIR /home/dotsuser/.src
 
-# Install Lazgit
-RUN export LAZYGIT_VERSION=$(wget -qO- "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*') && \
-	wget -O lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-RUN tar xf lazygit.tar.gz lazygit
-# TODO: move to build stage
-RUN install lazygit /usr/local/bin
+# nvim (installs to "/usr/local/bin"?)
+# TODO: clean me, idk
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	ninja-build \
+	gettext \
+	cmake \
+	&& apt-get clean \
+	&& git clone --depth=1 https://github.com/neovim/neovim \
+	&& cd neovim \
+	&& make CMAKE_BUILD_TYPE=RelWithDebInfo all install \
+	&& make distclean
 
-# Install OMZ
+# Lazygit
+RUN LAZYGIT_VERSION=$(wget -qO- "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*') \
+	&& wget -O lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz" \
+	&& tar xf lazygit.tar.gz lazygit \
+	&& install -v lazygit /usr/local/bin
+
+# Yazi (NB: depends on file)
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+	unzip \
+	&& apt-get clean \
+	&& wget https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.zip \
+	&& unzip yazi-x86_64-unknown-linux-gnu.zip yazi-x86_64-unknown-linux-gnu/yazi yazi-x86_64-unknown-linux-gnu/ya \
+	&& cd yazi-x86_64-unknown-linux-gnu \
+	&& install -v yazi ya /usr/local/bin
+
+# delta
+RUN DELTA_VERSION_LATEST=$(wget -qO- "https://api.github.com/repos/dandavison/delta/releases/latest" | grep -Po '"tag_name": "\K[^"]*') \
+	&& wget -O git-delta_amd64.deb "https://github.com/dandavison/delta/releases/latest/download/git-delta_${DELTA_VERSION_LATEST}_amd64.deb" \
+	&& dpkg -i git-delta_amd64.deb
+
+# Yuck.
+RUN chown -Rv dotsuser:dotsuser "${HOME}"
+USER dotsuser
+
+# OMZ
 RUN wget -qO- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
 
-# Install p10k theme, + some external omz plugins
+# p10k theme, + some external omz plugins
 RUN git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 RUN git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
-# Install nvm
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+# nvm
+RUN NVM_VERSION_LATEST=$(wget -qO- "https://api.github.com/repos/nvm-sh/nvm/releases/latest" | grep -Po '"tag_name": "\K[^"]*') \
+	&& wget -qO- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION_LATEST}/install.sh" | bash
 
-# Install autojump
+# autojump
 # We have to lie that we're already running zsh or it'll refuse
-RUN git clone --depth=1 https://github.com/wting/autojump
-RUN export SHELL=zsh && cd /root/autojump && ./install.py
+RUN git clone --depth=1 https://github.com/wting/autojump \
+	&& cd autojump \
+	&& SHELL=zsh ./install.py
 
-# TODO: Move this "cleanup" somewhere else
-RUN rm -rv autojump
+# Zoxide
+RUN wget -qO- https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # Setup the dotfiles
-COPY . dotfiles
-COPY ./.fetch_on_shell_start.sh .
-RUN /root/dotfiles/setup.sh -Hn
+WORKDIR /home/dotsuser
+COPY --chown=dotsuser:dotsuser . dotfiles
+COPY --chown=dotsuser:dotsuser ./.fetch_on_shell_start.sh .
+RUN ${HOME}/dotfiles/setup.sh -Hn
+# might wanna try and be smarter about this later on:
+RUN cat ${HOME}/dotfiles/.includes.gitconfig >> ${HOME}/.gitconfig
 
 # Tryna give zsh and nvim a bit of a "dry run" so they can setup what they need as part of the build
 # not sure if this is proper though, especially for the neovim part
 RUN echo exit | script -ec zsh /dev/null
 RUN nvim --headless +"q"
 
+ENV COLORTERM=truecolor
+
 # Run zsh
 ENTRYPOINT [ "zsh" ]
+
