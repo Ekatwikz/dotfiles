@@ -71,8 +71,8 @@ if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.z
 source_if_exists "$HOME/.deno/env"
 
 # Autojump, first one is the old one or something, idk
-source_if_exists "/usr/share/autojump/autojump.sh"
-source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
+# source_if_exists "/usr/share/autojump/autojump.sh"
+# source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
 
 # for alacritty maybe? idk
 [ ! -d ${ZDOTDIR:-~}/.zsh_functions ]\
