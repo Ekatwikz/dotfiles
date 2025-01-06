@@ -189,7 +189,8 @@ cdnvm() {
 # alias cd='cdnvm'
 
 #shellcheck disable=2164
-cd "$PWD"
+! command -v nvm 1> /dev/null || \
+    cdnvm "$PWD"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

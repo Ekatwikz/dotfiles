@@ -146,7 +146,8 @@ load-nvmrc() {
   fi
 }
 #add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+! command -v nvm 1> /dev/null || \
+    load-nvmrc
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
