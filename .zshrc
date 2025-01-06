@@ -38,6 +38,7 @@ plugins=(
     aliases
     colorize
     rust
+    golang
 
     zsh-syntax-highlighting
 )
