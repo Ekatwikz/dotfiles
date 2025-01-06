@@ -82,6 +82,10 @@ source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
 command -v chroma 1> /dev/null \
     && export ZSH_COLORIZE_TOOL="chroma"
 
+! command -v zoxide 1>/dev/null \
+    || { eval "$(zoxide init zsh)" && 
+    alias zi='_ZO_FZF_OPTS=--scheme=path zi' ; }
+
 # Databricks CLI (probably not needed any more lol)
 # command -v databricks 1> /dev/null \
 #     && . <(databricks completion zsh)
@@ -151,9 +155,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-! command -v zoxide 1>/dev/null \
-    || eval "$(zoxide init zsh)"
 
 
 # The next line updates PATH for the Google Cloud SDK.
