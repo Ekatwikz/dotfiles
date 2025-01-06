@@ -75,16 +75,22 @@ source_if_exists "/usr/share/autojump/autojump.sh"
 source_if_exists "$HOME/.autojump/etc/profile.d/autojump.sh"
 
 # for alacritty maybe? idk
-[ -d ${ZDOTDIR:-~}/.zsh_functions ]\
-    && fpath+=${ZDOTDIR:-~}/.zsh_functions
+[ ! -d ${ZDOTDIR:-~}/.zsh_functions ]\
+    || fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 # Go > Python xdd
-command -v chroma 1> /dev/null \
-    && export ZSH_COLORIZE_TOOL="chroma"
+! command -v chroma 1> /dev/null \
+    || export ZSH_COLORIZE_TOOL="chroma"
 
 ! command -v zoxide 1>/dev/null \
     || { eval "$(zoxide init zsh)" && 
     alias zi='_ZO_FZF_OPTS=--scheme=path zi' ; }
+
+# The next line updates PATH for the Google Cloud SDK.
+source_if_exists "$HOME/.local/bin/google-cloud-sdk/path.zsh.inc"
+
+# The next line enables shell command completion for gcloud.
+source_if_exists "$HOME/.local/bin/google-cloud-sdk/completion.zsh.inc"
 
 # Databricks CLI (probably not needed any more lol)
 # command -v databricks 1> /dev/null \
@@ -156,11 +162,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-
-
-# The next line updates PATH for the Google Cloud SDK.
-source_if_exists "$HOME/.local/bin/google-cloud-sdk/path.zsh.inc"
-
-# The next line enables shell command completion for gcloud.
-source_if_exists "$HOME/.local/bin/google-cloud-sdk/completion.zsh.inc"
 
